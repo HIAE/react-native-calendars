@@ -184,10 +184,14 @@ export default class AgendaView extends Component {
     const projectedY = currentY + this.knobTracker.estimateSpeed() * 250/*ms*/;
     const maxY = this.initialScrollPadPosition();
     const snapY = (projectedY > maxY / 2) ? maxY : 0;
-    this.setScrollPadPosition(snapY, true);
-    if (snapY === 0) {
+
+    if (snapY === 0 || (maxY - currentY > 30 )  ) {
+      this.setScrollPadPosition(0, true);
       this.enableCalendarScrolling();
+    } else {
+      this.setScrollPadPosition(maxY, true);
     }
+    
   }
 
   onVisibleMonthsChange(months) {
