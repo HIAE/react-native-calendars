@@ -27,6 +27,7 @@ class CalendarHeader extends Component {
 
   static defaultProps = {
     monthFormat: 'MMMM yyyy',
+    showNextMonth: false
   };
 
   constructor(props) {
@@ -125,6 +126,7 @@ class CalendarHeader extends Component {
           <View style={{ flexDirection: 'row' }}>
             <Text allowFontScaling={false} style={this.style.monthText} accessibilityTraits='header'>
               {this.props.month.toString(this.props.monthFormat)}
+              {this.props.showNextMonth && ` / ${this.props.month.clone().addMonths(1).toString(this.props.monthFormat)}`}
             </Text>
             {indicator}
           </View>

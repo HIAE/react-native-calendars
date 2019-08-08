@@ -154,7 +154,7 @@ class Calendar extends Component {
     this.updateMonth(this.state.currentMonth.clone().addMonths(count, true));
   }
 
-  renderDay(day, id) {
+  renderDay(day, id, startDay = 1) {
     const minDate = parseDate(this.props.minDate);
     const maxDate = parseDate(this.props.maxDate);
     let state = '';
@@ -162,13 +162,16 @@ class Calendar extends Component {
       state = 'disabled';
     } else if ((minDate && !dateutils.isGTE(day, minDate)) || (maxDate && !dateutils.isLTE(day, maxDate))) {
       state = 'disabled';
-    } else if (!dateutils.sameMonth(day, this.state.currentMonth)) {
+    } else if (!dateutils.sameMonth(day, this.state.currentMonth) && startDay === 1) {
       state = 'disabled';
     } else if (dateutils.sameDate(day, XDate())) {
       state = 'today';
     }
 
-    if (!dateutils.sameMonth(day, this.state.currentMonth) && this.props.hideExtraDays) {
+    if ((dateutils.sameMonth(day, this.state.currentMonth) && day.getDate() < startDay
+          || dateutils.sameMonth(day, this.state.currentMonth.clone().addMonths(1)) && day.getDate() >= startDay
+          || !dateutils.sameMonth(day, this.state.currentMonth) && !dateutils.sameMonth(day, this.state.currentMonth.clone().addMonths(1)))
+        && this.props.hideExtraDays) {
       return (<View key={id} style={{flex: 1}}/>);
     }
 
@@ -231,7 +234,7 @@ class Calendar extends Component {
   renderWeek(days, id) {
     const week = [];
     days.forEach((day, id2) => {
-      week.push(this.renderDay(day, id2));
+      week.push(this.renderDay(day, id2, this.props.startDay));
     }, this);
 
     if (this.props.showWeekNumbers) {
@@ -242,7 +245,7 @@ class Calendar extends Component {
   }
 
   render() {
-    const days = dateutils.page(this.state.currentMonth, this.props.firstDay);
+    const days = dateutils.page(this.state.currentMonth, this.props.firstDay, this.props.startDay);
     const weeks = [];
     while (days.length) {
       weeks.push(this.renderWeek(days.splice(0, 7), weeks.length));
@@ -256,6 +259,7 @@ class Calendar extends Component {
         indicator = true;
       }
     }
+    const showNextMonth = this.props.startDay > 1;
     return (
       <View style={[this.style.container, this.props.style]}>
         <CalendarHeader
@@ -271,6 +275,8 @@ class Calendar extends Component {
           weekNumbers={this.props.showWeekNumbers}
           onPressArrowLeft={this.props.onPressArrowLeft}
           onPressArrowRight={this.props.onPressArrowRight}
+          showNextMonth={showNextMonth}
+          monthFormat={showNextMonth ? 'MMM yyyy' : 'MMMM yyyy'}
         />
         <View style={this.style.monthView}>{weeks}</View>
       </View>);

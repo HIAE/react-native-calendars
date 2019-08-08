@@ -49,8 +49,8 @@ function weekDayNames(firstDayOfWeek = 0) {
   return weekDaysNames;
 }
 
-function page(xd, firstDayOfWeek) {
-  const days = month(xd);
+function page(xd, firstDayOfWeek, startDay = 1) {
+  const days = monthStartingInDay(xd, startDay);
   let before = [], after = [];
 
   const fdow = ((7 + firstDayOfWeek) % 7) || 7;
@@ -79,6 +79,16 @@ function page(xd, firstDayOfWeek) {
 
   return before.concat(days.slice(1, days.length - 1), after);
 }
+
+function monthStartingInDay(xd, startDay){
+  const year = xd.getFullYear();
+  const month = xd.getMonth();
+  const firstDay = new XDate(year, month, startDay, 0, 0, 0, true);
+  const lastDay = new XDate(year, month + 1, startDay - 1, 0, 0, 0, true);
+  return fromTo(firstDay, lastDay);
+}
+
+
 
 module.exports = {
   weekDayNames,

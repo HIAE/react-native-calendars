@@ -94,7 +94,7 @@ export default class AgendaView extends Component {
   };
 
   static defaultProps = {
-    showDate: true
+    showDate: true,
   };
 
   constructor(props) {
@@ -426,6 +426,7 @@ export default class AgendaView extends Component {
               disabledByDefault={this.props.disabledByDefault}
               displayLoadingIndicator={this.props.displayLoadingIndicator}
               showWeekNumbers={this.props.showWeekNumbers}
+              startDay={this.props.startDay}
             />
           </Animated.View>
           {knob}

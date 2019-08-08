@@ -29,7 +29,7 @@ class CalendarList extends Component {
     // Enable or disable vertical scroll indicator. Default = false
     showScrollIndicator: PropTypes.bool,
 
-    // When true, the calendar list scrolls to top when the status bar is tapped. Default = true
+    // When true, the calendar list scrolls to top when the s  renderDay(day, id) {tatus bar is tapped. Default = true
     scrollsToTop: PropTypes.bool,
 
     // Enable or disable paging on scroll
@@ -57,6 +57,7 @@ class CalendarList extends Component {
     scrollEnabled: true,
     scrollsToTop: false,
     removeClippedSubviews: Platform.OS === 'android' ? false : true,
+    startDay: 1,
   }
 
   constructor(props) {
@@ -101,12 +102,14 @@ class CalendarList extends Component {
 
   scrollToDay(d, offset, animated) {
     const day = parseDate(d);
-    const diffMonths = Math.round(this.state.openDate.clone().setDate(1).diffMonths(day.clone().setDate(1)));
+    const diffMonths = Math.round(this.state.openDate.clone().setDate(1).diffMonths(
+      day.getDate() < this.props.startDay ? day.clone().setDate(1).addMonths(-1) : day.clone().setDate(1)
+    ));
     const size = this.props.horizontal ? this.props.calendarWidth : this.props.calendarHeight;
     let scrollAmount = (size * this.props.pastScrollRange) + (diffMonths * size) + (offset || 0);
     if (!this.props.horizontal) {
       let week = 0;
-      const days = dateutils.page(day, this.props.firstDay);
+      const days = dateutils.page(day.getDate() < this.props.startDay ? day.clone().addMonths(-1) : day, this.props.firstDay, this.props.startDay);
       for (let i = 0; i < days.length; i++) {
         week = Math.floor(i / 7);
         if (dateutils.sameDate(days[i], day)) {
@@ -190,7 +193,8 @@ class CalendarList extends Component {
       <CalendarListItem 
         item={item} 
         calendarHeight={this.props.calendarHeight} 
-        calendarWidth={this.props.horizontal ? this.props.calendarWidth : undefined} 
+        calendarWidth={this.props.horizontal ? this.props.calendarWidth : undefined}
+        startDay={this.props.startDay}
         {...this.props} 
         style={this.props.calendarStyle}
       />
