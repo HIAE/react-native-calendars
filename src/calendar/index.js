@@ -76,7 +76,9 @@ class Calendar extends Component {
     // Handler which gets executed when press arrow icon left. It receive a callback can go back month
     onPressArrowLeft: PropTypes.func,
     // Handler which gets executed when press arrow icon left. It receive a callback can go next month
-    onPressArrowRight: PropTypes.func
+    onPressArrowRight: PropTypes.func,
+    // Start day of the month
+    startDay: PropTypes.number,
   };
 
   constructor(props) {
@@ -109,7 +111,8 @@ class Calendar extends Component {
   }
 
   updateMonth(day, doNotTriggerListeners) {
-    if (day.toString('yyyy MM') === this.state.currentMonth.toString('yyyy MM')) {
+    if (day.toString('yyyy MM') === this.state.currentMonth.toString('yyyy MM')
+      || dateutils.sameMonth(day, this.state.currentMonth.clone().addMonths(1)) && day.getDate() < this.props.startDay){
       return;
     }
     this.setState({

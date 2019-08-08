@@ -7,7 +7,8 @@ import styleConstructor from './style';
 class CalendarListItem extends Component {
   static defaultProps = {
     hideArrows: true,
-    hideExtraDays: true
+    hideExtraDays: true,
+    startDay: 1
   };
 
   constructor(props) {
@@ -49,7 +50,7 @@ class CalendarListItem extends Component {
           renderArrow={this.props.renderArrow}
           onPressArrowLeft={this.props.onPressArrowLeft}
           onPressArrowRight={this.props.onPressArrowRight}
-          startDay={this.props.startDay || 1}
+          startDay={this.props.startDay}
         />);
     } else {
       const text = row.toString();
