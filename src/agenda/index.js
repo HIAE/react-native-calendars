@@ -52,7 +52,7 @@ export default class AgendaView extends Component {
     /** initially selected day */ 
     selected: PropTypes.any, //TODO: Should be renamed 'selectedDay'
     /** Hide knob button. Default = false */
-    hideKnob: PropTypes.bool
+    hideKnob: PropTypes.bool,
     // specify a flag to show the left day on the left of reservation
     showDate: PropTypes.bool
   };
