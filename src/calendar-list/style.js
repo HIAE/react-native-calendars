@@ -3,7 +3,7 @@ import * as defaultStyle from '../style';
 
 const STYLESHEET_ID = 'stylesheet.calendar-list.main';
 
-export default function getStyle(theme={}) {
+export default function getStyle(theme = {}) {
   const appStyle = {...defaultStyle, ...theme};
   return StyleSheet.create({
     container: {
@@ -20,6 +20,15 @@ export default function getStyle(theme={}) {
       color: appStyle.dayTextColor
     },
     calendar: {
+      paddingLeft: 15,
+      paddingRight: 15
+    },
+    staticHeader: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 0,
+      backgroundColor: appStyle.calendarBackground,
       paddingLeft: 15,
       paddingRight: 15
     },
