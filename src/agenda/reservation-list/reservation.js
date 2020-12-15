@@ -22,7 +22,9 @@ class Reservation extends Component {
     /** specify how each item should be rendered in agenda. */
     renderItem: PropTypes.func,
     /** specify how empty date content with no items should be rendered. */
-    renderEmptyDate: PropTypes.func
+    renderEmptyDate: PropTypes.func,
+    /** specify whether or not the date will be rendered */
+    showDate: PropTypes.bool
   };
 
   constructor(props) {

@@ -109,8 +109,7 @@ class ReservationList extends Component {
     this.selectedDay = selectedDay;
     this.updateDataSource(reservations.reservations);
   }
-
-          showDate={this.props.showDate}
+  
   getReservationsForDay(iterator, props) {
     const day = iterator.clone();
     const res = props.reservations[day.toString('yyyy-MM-dd')];
