@@ -5,21 +5,26 @@ const STYLESHEET_ID = 'stylesheet.agenda.list';
 
 export default function styleConstructor(theme = {}) {
   const appStyle = {...defaultStyle, ...theme};
-  return  StyleSheet.create({
+  return StyleSheet.create({
     container: {
       flexDirection: 'row'
+    },
+    innerContainer: {
+      flex: 1
     },
     dayNum: {
       fontSize: 28,
       fontWeight: '200',
+      fontFamily: appStyle.textDayFontFamily,
       color: appStyle.agendaDayNumColor
     },
     dayText: {
       fontSize: 14,
-      fontWeight: '300',
+      fontWeight: appStyle.textDayFontWeight,
+      fontFamily: appStyle.textDayFontFamily,
       color: appStyle.agendaDayTextColor,
-      marginTop: -5,
-      backgroundColor: 'rgba(0,0,0,0)'
+      backgroundColor: 'rgba(0,0,0,0)',
+      marginTop: -5
     },
     day: {
       width: 63,
@@ -29,6 +34,9 @@ export default function styleConstructor(theme = {}) {
     },
     today: {
       color: appStyle.agendaTodayColor
+    },
+    indicator: {
+      marginTop: 80
     },
     ...(theme[STYLESHEET_ID] || {})
   });
